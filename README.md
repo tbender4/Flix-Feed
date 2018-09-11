@@ -43,9 +43,13 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 Describe any challenges encountered while building the app.
 
+ - Adding constraints were needed to prevent contents from disappearing from the table view
+ - Getting the right cell sizes and font settings requred experimentation
+ - Needed to add `@objc` to `func didPullToRefresh (_ refreshControl: UIRefreshControl)` to supress an error.
+
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2018 Thomas Bender
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
