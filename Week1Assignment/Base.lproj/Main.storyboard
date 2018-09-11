@@ -32,21 +32,21 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H2d-48-cpY">
-                                                    <rect key="frame" x="14" y="0.0" width="93" height="157"/>
+                                                    <rect key="frame" x="15" y="0.0" width="93" height="157"/>
                                                     <color key="backgroundColor" red="0.589206059" green="1" blue="0.98020694639999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="93" id="Ska-mF-7m1"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="obC-eq-DYy">
-                                                    <rect key="frame" x="116" y="44.5" width="244" height="101.5"/>
+                                                    <rect key="frame" x="117" y="44.5" width="243" height="101.5"/>
                                                     <string key="text">ebbie Ocean, a criminal mastermind, gathers a crew of female thieves to pull off the heist of the century at New York's annual Met Gala.</string>
                                                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ocean's Eight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nNg-81-yBx">
-                                                    <rect key="frame" x="115" y="15.5" width="155" height="29"/>
+                                                    <rect key="frame" x="116" y="15.5" width="154" height="29"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -69,11 +69,11 @@
                                                 <constraint firstItem="H2d-48-cpY" firstAttribute="top" secondItem="7kC-gx-gs2" secondAttribute="top" id="oNd-I8-rgb"/>
                                                 <constraint firstItem="obC-eq-DYy" firstAttribute="top" secondItem="nNg-81-yBx" secondAttribute="bottom" id="qMd-Ft-6b1"/>
                                                 <constraint firstAttribute="bottom" secondItem="H2d-48-cpY" secondAttribute="bottom" constant="-0.5" id="rJf-Ma-ldI"/>
-                                                <constraint firstItem="H2d-48-cpY" firstAttribute="leading" secondItem="7kC-gx-gs2" secondAttribute="leadingMargin" constant="-1" id="vXD-cv-VoF"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="overviewLabel" destination="obC-eq-DYy" id="uTp-yd-wzj"/>
+                                            <outlet property="posterImageViewer" destination="H2d-48-cpY" id="zsY-v6-Bhc"/>
                                             <outlet property="titleLabel" destination="nNg-81-yBx" id="XfA-ff-Me4"/>
                                         </connections>
                                     </tableViewCell>
