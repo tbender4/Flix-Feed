@@ -20,19 +20,29 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
       //test
         super.viewDidLoad()
-    
         
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(NowPlayingViewController.didPullToRefresh(_:)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
         tableView.dataSource = self
         fetchMovies()
-        
     }
     
     @objc func didPullToRefresh (_ refreshControl: UIRefreshControl) {
         fetchMovies()
     }
+
+    func displayError () {
+      let networkAlertController = UIAlertController(title: "Cannot Get Movies", message: "The Internet connect appears to be offline.", preferredStyle: .alert)
+      let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (action) in
+        self.fetchMovies()
+      }
+      networkAlertController.addAction(tryAgainAction)
+      
+      present(networkAlertController, animated: true) {
+      }
+    }
+    
     
     func fetchMovies() {
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
@@ -43,8 +53,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
             
             if let error = error {
                 print(error.localizedDescription)
-                //self.clearAllNotice()
-                self.noticeError("ERROR", autoClear: true)
+              //self.noticeError("ERROR", autoClear: true)
+              self.displayError()
             } else if let data = data {
                 let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                 //print(dataDictionary)
@@ -52,7 +62,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
                 self.movies = movies
                 self.tableView.reloadData()
                 
-                //self.clearAllNotice()
                 self.noticeSuccess("Updated", autoClear: true)
                 self.refreshControl.endRefreshing()
 
