@@ -14,13 +14,13 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [[String: Any]] = []
-    
+    var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
       //test
         super.viewDidLoad()
     
-        let refreshControl = UIRefreshControl()
+        refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(NowPlayingViewController.didPullToRefresh(_:)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
         tableView.dataSource = self
@@ -45,6 +45,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
                 let movies = dataDictionary["results"] as! [[String: Any]]
                 self.movies = movies
                 self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
                 
             }
         }
@@ -67,7 +68,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         
         let posterURL = URL(string: baseURLString + posterPathString)!
         cell.posterImageViewer.af_setImage(withURL: posterURL)
-        
+        //cell.posterImageViewer.set
         
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
