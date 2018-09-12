@@ -2,7 +2,7 @@
 
 **Flix** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **2** hours spent in total
+Time spent: **5** hours spent in total
 
 ## User Stories
 
@@ -10,8 +10,8 @@ The following **required** user stories are complete:
 
 - [x] User sees app icon in home screen and styled launch screen (+1pt)
 - [x] User can scroll through a list of movies currently playing in theaters from The Movie DB API (+5pt)
-- [ ] User can "Pull to refresh" the movie list (+2pt)
-- [ ] User sees a loading state while waiting for the movies to load (+2pt)
+- [x] User can "Pull to refresh" the movie list (+2pt)
+- [x] User sees a loading state while waiting for the movies to load (+2pt)
 
 The following **stretch** user stories are implemented:
 
@@ -46,6 +46,8 @@ Describe any challenges encountered while building the app.
  - Adding constraints were needed to prevent contents from disappearing from the table view
  - Getting the right cell sizes and font settings requred experimentation
  - Needed to add `@objc` to `func didPullToRefresh (_ refreshControl: UIRefreshControl)` to supress an error.
+ - Was able to enforce aspect ratios on posters by adding the appropriate constraint
+ - The activity indicator did not properly work unless it was part of `task`
 
 ## License
 
