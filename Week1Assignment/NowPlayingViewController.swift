@@ -21,6 +21,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
       //test
         super.viewDidLoad()
     
+        
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(NowPlayingViewController.didPullToRefresh(_:)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
@@ -38,19 +39,25 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
         let task = session.dataTask(with: request) { (data, response, error) in
+            self.loadingActIndicator.startAnimating()
+            
             if let error = error {
                 print(error.localizedDescription)
+                //self.clearAllNotice()
+                self.noticeError("ERROR", autoClear: true)
             } else if let data = data {
-                 self.loadingActIndicator.startAnimating()
                 let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                 //print(dataDictionary)
                 let movies = dataDictionary["results"] as! [[String: Any]]
                 self.movies = movies
                 self.tableView.reloadData()
+                
+                //self.clearAllNotice()
+                self.noticeSuccess("Updated", autoClear: true)
                 self.refreshControl.endRefreshing()
-                self.loadingActIndicator.stopAnimating()
-            
+
             }
+            self.loadingActIndicator.stopAnimating()
         }
         task.resume()
         
