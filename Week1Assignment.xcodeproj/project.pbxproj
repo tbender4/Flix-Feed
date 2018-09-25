@@ -17,6 +17,8 @@
 		E9A26AF72149A0DF00B27552 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E9A26AF62149A0DF00B27552 /* README.md */; };
 		E9F05C9B2141F3BE00375C81 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F05C9A2141F3BE00375C81 /* MovieCell.swift */; };
 		E9FDE8E4215449240038A3D6 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDE8E3215449240038A3D6 /* DetailViewController.swift */; };
+		E9FDE8E6215455380038A3D6 /* PosterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDE8E5215455380038A3D6 /* PosterCell.swift */; };
+		E9FDE8E8215455BB0038A3D6 /* SuperheroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FDE8E7215455BB0038A3D6 /* SuperheroViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		E9A26AF62149A0DF00B27552 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		E9F05C9A2141F3BE00375C81 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		E9FDE8E3215449240038A3D6 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		E9FDE8E5215455380038A3D6 /* PosterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterCell.swift; sourceTree = "<group>"; };
+		E9FDE8E7215455BB0038A3D6 /* SuperheroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperheroViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,7 +95,9 @@
 				E9653F532141A13D00A1C160 /* NowPlayingViewController.swift */,
 				E9F05C9A2141F3BE00375C81 /* MovieCell.swift */,
 				E9FDE8E3215449240038A3D6 /* DetailViewController.swift */,
+				E9FDE8E5215455380038A3D6 /* PosterCell.swift */,
 				E916CC2B213F4EF400A3ABE0 /* Main.storyboard */,
+				E9FDE8E7215455BB0038A3D6 /* SuperheroViewController.swift */,
 				E916CC2E213F4EF600A3ABE0 /* Assets.xcassets */,
 				E916CC30213F4EF600A3ABE0 /* LaunchScreen.storyboard */,
 				E916CC33213F4EF600A3ABE0 /* Info.plist */,
@@ -217,7 +223,9 @@
 			files = (
 				E9653F542141A13D00A1C160 /* NowPlayingViewController.swift in Sources */,
 				E916CC28213F4EF400A3ABE0 /* AppDelegate.swift in Sources */,
+				E9FDE8E6215455380038A3D6 /* PosterCell.swift in Sources */,
 				E9FDE8E4215449240038A3D6 /* DetailViewController.swift in Sources */,
+				E9FDE8E8215455BB0038A3D6 /* SuperheroViewController.swift in Sources */,
 				E9F05C9B2141F3BE00375C81 /* MovieCell.swift in Sources */,
 				E9A26AF52148EE1200B27552 /* SwiftNotice.swift in Sources */,
 			);
