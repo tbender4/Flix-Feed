@@ -16,8 +16,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
   @IBOutlet weak var loadingActIndicator: UIActivityIndicatorView!
   
   var movies: [[String: Any]] = []
-  var filteredMovies: [[String: Any]] = [] //for search function
-  var titles: [String] = []           //second array for search function
+  var filteredMovies: [[String: Any]]! //for search function
   
   var refreshControl: UIRefreshControl!
   
@@ -27,6 +26,11 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     // Use the filter method to iterate over all items in the data array
     // For each item, return true if the item should be included and false if the
     // item should NOT be included
+    
+    if searchText.isEmpty {
+      print("isEmpty")
+    }
+    
     filteredMovies = searchText.isEmpty ? movies : movies.filter { (item: [String:Any]) -> Bool in
       // If dataItem matches the searchText, return true to include it
       let title = item["title"] as! String
@@ -35,6 +39,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     }
     tableView.reloadData()
   }
+  
+  
   
   
   override func viewDidLoad() {
@@ -49,7 +55,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     fetchMovies()
     filteredMovies = movies
     searchBar.delegate = self
-    tableView.reloadData()
+    searchBar.text = ""
     
   }
   
@@ -110,6 +116,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
     
     //let movie = movies[indexPath.row]
+    
     let movie = filteredMovies[indexPath.row]
     //print(movie)
     let title = movie["title"] as! String

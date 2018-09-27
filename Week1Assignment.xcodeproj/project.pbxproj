@@ -69,6 +69,16 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E9052FE6215D840600CDAA27 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E9FDE8E7215455BB0038A3D6 /* SuperheroViewController.swift */,
+				E9653F532141A13D00A1C160 /* NowPlayingViewController.swift */,
+				E9FDE8E3215449240038A3D6 /* DetailViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		E916CC1B213F4EF400A3ABE0 = {
 			isa = PBXGroup;
 			children = (
@@ -90,14 +100,12 @@
 		E916CC26213F4EF400A3ABE0 /* Week1Assignment */ = {
 			isa = PBXGroup;
 			children = (
+				E9052FE6215D840600CDAA27 /* ViewControllers */,
 				E916CC27213F4EF400A3ABE0 /* AppDelegate.swift */,
 				E9A26AF42148EE1200B27552 /* SwiftNotice.swift */,
-				E9653F532141A13D00A1C160 /* NowPlayingViewController.swift */,
 				E9F05C9A2141F3BE00375C81 /* MovieCell.swift */,
-				E9FDE8E3215449240038A3D6 /* DetailViewController.swift */,
 				E9FDE8E5215455380038A3D6 /* PosterCell.swift */,
 				E916CC2B213F4EF400A3ABE0 /* Main.storyboard */,
-				E9FDE8E7215455BB0038A3D6 /* SuperheroViewController.swift */,
 				E916CC2E213F4EF600A3ABE0 /* Assets.xcassets */,
 				E916CC30213F4EF600A3ABE0 /* LaunchScreen.storyboard */,
 				E916CC33213F4EF600A3ABE0 /* Info.plist */,
