@@ -16,7 +16,7 @@ The following **required** user stories are complete:
 The following **stretch** user stories are implemented:
 
 - [x] User sees an alert when there's a networking error (+1pt)
-- [ ] User can search for a movie (+3pt)
+- [x] User can search for a movie (+3pt)
 - [x] While poster is being fetched, user see's a placeholder image (+1pt)
 - [ ] User sees image transition for images coming from network, not when it is loaded from cache (+1pt)
 - [ ] Customize the selection effect of the cell (+1pt)
@@ -47,6 +47,7 @@ Describe any challenges encountered while building the app.
  - Needed to add `@objc` to `func didPullToRefresh (_ refreshControl: UIRefreshControl)` to supress an error.
  - Was able to enforce aspect ratios on posters by adding the appropriate constraint in `Main.storyboard`
  - The activity indicator did not properly work unless it is part of `task`
+ - Building the search feature by title is successful but it doesn't show the data until you do a search at least once.
 
 ## License
 

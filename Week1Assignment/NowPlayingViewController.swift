@@ -9,15 +9,33 @@
 import UIKit
 import AlamofireImage
 
-class NowPlayingViewController: UIViewController, UITableViewDataSource {
+class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearchBarDelegate {
   
   @IBOutlet weak var searchBar: UISearchBar!
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var loadingActIndicator: UIActivityIndicatorView!
   
   var movies: [[String: Any]] = []
-  var filteredMovies: [[String: Any]] = []            //second array for search function
+  var filteredMovies: [[String: Any]] = [] //for search function
+  var titles: [String] = []           //second array for search function
+  
   var refreshControl: UIRefreshControl!
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    // When there is no text, filteredData is the same as the original data
+    // When user has entered text into the search box
+    // Use the filter method to iterate over all items in the data array
+    // For each item, return true if the item should be included and false if the
+    // item should NOT be included
+    filteredMovies = searchText.isEmpty ? movies : movies.filter { (item: [String:Any]) -> Bool in
+      // If dataItem matches the searchText, return true to include it
+      let title = item["title"] as! String
+      let range =  title.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+      return range
+    }
+    tableView.reloadData()
+  }
+  
   
   override func viewDidLoad() {
     //test
@@ -29,22 +47,13 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     tableView.dataSource = self
     
     fetchMovies()
-    //searchBar.delegate = self
+    filteredMovies = movies
+    searchBar.delegate = self
+    tableView.reloadData()
     
   }
   
-  /*
-   func searchBar (_ searchBar: UISearchBar, textDidChange searchText: String) {
-   filteredMovies = searchText.isEmpty ? movies : movies.filter {
-   let movie = movies[IndexPath.row]
-   let title = movie["title"] as! String
-   
-   (item: title) -> Bool in
-   return item.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
-   }
-   tableView.reloadData()
-   }
-   */
+  
   
   
   @objc func didPullToRefresh (_ refreshControl: UIRefreshControl) {
@@ -93,14 +102,18 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
   
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return movies.count
+    return filteredMovies.count
+   // return movies.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
     
-    let movie = movies[indexPath.row]
+    //let movie = movies[indexPath.row]
+    let movie = filteredMovies[indexPath.row]
+    //print(movie)
     let title = movie["title"] as! String
+
     let overview = movie["overview"] as! String
     let posterPathString = movie["poster_path"] as! String
     let baseURLString = "https://image.tmdb.org/t/p/w500"
@@ -120,7 +133,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let cell = sender as! UITableViewCell
     if let indexPath = tableView.indexPath(for: cell) {
-      let movie = movies[indexPath.row]
+      let movie = filteredMovies[indexPath.row]
       let detailViewController = segue.destination as! DetailViewController
       detailViewController.movie = movie
     }
