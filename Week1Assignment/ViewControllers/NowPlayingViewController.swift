@@ -15,8 +15,10 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var loadingActIndicator: UIActivityIndicatorView!
   
-  var movies: [[String: Any]] = []
-  var filteredMovies: [[String: Any]] = [] //for search function
+  //var movies: [[String: Any]] = []
+  var movies: [Movie] = []
+  //var filteredMovies: [[String: Any]] = [] //for search function
+  var filteredMovies: [Movie] = []
   var searchActive: Bool = false     //maintains state of whether searchBar is usable. If
   
   var refreshControl: UIRefreshControl!
@@ -45,24 +47,24 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     // Use the filter method to iterate over all items in the data array
     // For each item, return true if the item should be included and false if the
     // item should NOT be included
-    
-    
+
+
     print("search bar code will happen")
-    
+
     if searchText.isEmpty {
       print("empty search")
     }
-    filteredMovies = searchText.isEmpty ? movies : movies.filter { (item: [String:Any]) -> Bool in
-      
+    filteredMovies = searchText.isEmpty ? movies : movies.filter { (item: Movie) -> Bool in
+
       // If dataItem matches the searchText, return true to include it
-      let title = item["title"] as! String
+      let title = item.title 
       let range =  title.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
       return range
     }
     tableView.reloadData()
   }
-  
-  
+
+  //TODO: Fix search bar
   
   func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
     searchActive = true
@@ -93,14 +95,14 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
       
       if let error = error {
         print(error.localizedDescription)
-        //self.noticeError("ERROR", autoClear: true)
         self.displayError()
       } else if let data = data {
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-        //print(dataDictionary)
-        let movies = dataDictionary["results"] as! [[String: Any]]
-        self.movies = movies
-        
+        let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+        self.movies = [] //empties array before filling it again
+        for i in movieDictionaries {
+          self.movies.append(Movie(dictionary: i))    //iterates and adds movies
+        }
         self.tableView.reloadData()
         
         self.noticeSuccess("Updated", autoClear: true)
@@ -110,7 +112,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
       self.loadingActIndicator.stopAnimating()
     }
     task.resume()
-    
   }
   
   
@@ -125,30 +126,31 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-    
-    
     var movie = movies[indexPath.row]
     if searchActive {
       movie = filteredMovies[indexPath.row]       //switch over to filteredmovies array when the search starts
     }
     //print(movie)
-    let title = movie["title"] as! String
-    
-    let overview = movie["overview"] as! String
-    let posterPathString = movie["poster_path"] as! String
-    let baseURLString = "https://image.tmdb.org/t/p/w500"
-    let posterURL = URL(string: baseURLString + posterPathString)!
+//    let title = movie["title"] as! String
+    let title = movie.title
+//    let overview = movie["overview"] as! String
+    let overview = movie.overview
+//    let posterPathString = movie["poster_path"] as! String
+//    let baseURLString = "https://image.tmdb.org/t/p/w500"
+//    let posterURL = URL(string: baseURLString + posterPathString)!
+    let posterURL = movie.posterURL
     
     let posterPlaceholderImage = UIImage (named: "now_playing_tabbar_item")
-    cell.posterImageViewer.af_setImage(withURL: posterURL, placeholderImage: posterPlaceholderImage)
     
-    //cell.posterImageViewer.set
+      cell.posterImageViewer.af_setImage(withURL: posterURL!, placeholderImage: posterPlaceholderImage)
+    
     
     cell.titleLabel.text = title
     cell.overviewLabel.text = overview
     
     return cell
   }
+  
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let cell = sender as! UITableViewCell
