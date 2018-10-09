@@ -16,31 +16,10 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
   @IBOutlet weak var loadingActIndicator: UIActivityIndicatorView!
   
   var movies: [[String: Any]] = []
-  var filteredMovies: [[String: Any]]! //for search function
+  var filteredMovies: [[String: Any]] = [] //for search function
+  var searchActive: Bool = false     //maintains state of whether searchBar is usable. If
   
   var refreshControl: UIRefreshControl!
-  
-  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-    // When there is no text, filteredData is the same as the original data
-    // When user has entered text into the search box
-    // Use the filter method to iterate over all items in the data array
-    // For each item, return true if the item should be included and false if the
-    // item should NOT be included
-    
-    if searchText.isEmpty {
-      print("isEmpty")
-    }
-    
-    filteredMovies = searchText.isEmpty ? movies : movies.filter { (item: [String:Any]) -> Bool in
-      // If dataItem matches the searchText, return true to include it
-      let title = item["title"] as! String
-      let range =  title.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
-      return range
-    }
-    tableView.reloadData()
-  }
-  
-  
   
   
   override func viewDidLoad() {
@@ -56,11 +35,38 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     filteredMovies = movies
     searchBar.delegate = self
     searchBar.text = ""
+    self.tableView.reloadData()
+    print(movies.count)
+  }
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    // When there is no text, filteredData is the same as the original data
+    // When user has entered text into the search box
+    // Use the filter method to iterate over all items in the data array
+    // For each item, return true if the item should be included and false if the
+    // item should NOT be included
     
+    
+    print("search bar code will happen")
+    
+    if searchText.isEmpty {
+      print("empty search")
+    }
+    filteredMovies = searchText.isEmpty ? movies : movies.filter { (item: [String:Any]) -> Bool in
+      
+      // If dataItem matches the searchText, return true to include it
+      let title = item["title"] as! String
+      let range =  title.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
+      return range
+    }
+    tableView.reloadData()
   }
   
   
   
+  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    searchActive = true
+  }
   
   @objc func didPullToRefresh (_ refreshControl: UIRefreshControl) {
     fetchMovies()
@@ -94,6 +100,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
         //print(dataDictionary)
         let movies = dataDictionary["results"] as! [[String: Any]]
         self.movies = movies
+        
         self.tableView.reloadData()
         
         self.noticeSuccess("Updated", autoClear: true)
@@ -108,19 +115,25 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
   
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return filteredMovies.count
-   // return movies.count
+    
+    if searchActive {
+      return filteredMovies.count
+    }
+    return movies.count
+
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
     
-    //let movie = movies[indexPath.row]
     
-    let movie = filteredMovies[indexPath.row]
+    var movie = movies[indexPath.row]
+    if searchActive {
+      movie = filteredMovies[indexPath.row]       //switch over to filteredmovies array when the search starts
+    }
     //print(movie)
     let title = movie["title"] as! String
-
+    
     let overview = movie["overview"] as! String
     let posterPathString = movie["poster_path"] as! String
     let baseURLString = "https://image.tmdb.org/t/p/w500"
@@ -140,27 +153,31 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let cell = sender as! UITableViewCell
     if let indexPath = tableView.indexPath(for: cell) {
-      let movie = filteredMovies[indexPath.row]
+      var movie = movies[indexPath.row]
+      if searchActive {
+        movie = filteredMovies[indexPath.row]
+      }
       let detailViewController = segue.destination as! DetailViewController
       detailViewController.movie = movie
     }
+    
   }
-    
-    
-    override func didReceiveMemoryWarning() {
-      super.didReceiveMemoryWarning()
-      // Dispose of any resources that can be recreated.
-    }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+  
+  
+  override func didReceiveMemoryWarning() {
+    super.didReceiveMemoryWarning()
+    // Dispose of any resources that can be recreated.
+  }
+  
+  
+  /*
+   // MARK: - Navigation
+   
+   // In a storyboard-based application, you will often want to do a little preparation before navigation
+   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+   // Get the new view controller using segue.destinationViewController.
+   // Pass the selected object to the new view controller.
+   }
+   */
+  
 }
