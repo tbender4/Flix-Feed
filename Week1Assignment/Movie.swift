@@ -32,7 +32,7 @@ class Movie {
   
   let baseURL = "https://image.tmdb.org/t/p/w500"
   
-  init() {
+  init() {                                        //should all get overwritten by segue
     title = "defaultTitle"
     overview = "defaultOverview"
     posterPathString = "defaultpps"
@@ -58,4 +58,14 @@ class Movie {
       backdropURL = URL(string: baseURL + backdropPathString)
     }
   }
+  
+  class func movies(dictionaries: [[String: Any]]) -> [Movie] {
+    var movies: [Movie] = []
+    for dictionary in dictionaries {
+      let movie = Movie(dictionary: dictionary)
+      movies.append(movie)
+    }
+    return movies
+  }
+  
 }

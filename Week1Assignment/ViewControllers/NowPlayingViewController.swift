@@ -16,8 +16,8 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
   @IBOutlet weak var loadingActIndicator: UIActivityIndicatorView!
   
   //var movies: [[String: Any]] = []
-  var movies: [Movie] = []
   //var filteredMovies: [[String: Any]] = [] //for search function
+  var movies: [Movie] = []
   var filteredMovies: [Movie] = []
   var searchActive: Bool = false     //maintains state of whether searchBar is usable. If
   
@@ -57,7 +57,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     filteredMovies = searchText.isEmpty ? movies : movies.filter { (item: Movie) -> Bool in
 
       // If dataItem matches the searchText, return true to include it
-      let title = item.title 
+      let title = item.title
       let range =  title.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil
       return range
     }
@@ -99,11 +99,13 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
       } else if let data = data {
         let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
+        
+        
         self.movies = [] //empties array before filling it again
-        for i in movieDictionaries {
-          self.movies.append(Movie(dictionary: i))    //iterates and adds movies
-        }
+        self.movies = Movie.movies(dictionaries: movieDictionaries)
         self.tableView.reloadData()
+        
+        
         
         self.noticeSuccess("Updated", autoClear: true)
         self.refreshControl.endRefreshing()
@@ -128,23 +130,15 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
     var movie = movies[indexPath.row]
     if searchActive {
-      movie = filteredMovies[indexPath.row]       //switch over to filteredmovies array when the search starts
+      movie = filteredMovies[indexPath.row]       //switch to filteredmovies array when the search starts
     }
-    //print(movie)
-//    let title = movie["title"] as! String
+
     let title = movie.title
-//    let overview = movie["overview"] as! String
     let overview = movie.overview
-//    let posterPathString = movie["poster_path"] as! String
-//    let baseURLString = "https://image.tmdb.org/t/p/w500"
-//    let posterURL = URL(string: baseURLString + posterPathString)!
     let posterURL = movie.posterURL
-    
     let posterPlaceholderImage = UIImage (named: "now_playing_tabbar_item")
     
-      cell.posterImageViewer.af_setImage(withURL: posterURL!, placeholderImage: posterPlaceholderImage)
-    
-    
+    cell.posterImageViewer.af_setImage(withURL: posterURL!, placeholderImage: posterPlaceholderImage)
     cell.titleLabel.text = title
     cell.overviewLabel.text = overview
     
@@ -162,7 +156,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
       let detailViewController = segue.destination as! DetailViewController
       detailViewController.movie = movie
     }
-    
   }
   
   

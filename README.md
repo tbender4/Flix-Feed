@@ -129,14 +129,14 @@ Describe any challenges encountered while building the app.
 
 **Flix-Feed** is a movies app displaying box office and top rental DVDs using [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **1** hours spent in total
+Time spent: **3** hours spent in total
 
 ## User Stories
 
 The following **required** user stories are complete:
 
-- [ ] Create a movie model (+2pt)
-- [ ] Implement the movie model (+2pt)
+- [x] Create a movie model (+2pt)
+- [x] Implement the movie model (+2pt)
 - [ ] Implement property observers (+2pt)
 - [ ] Create a basic API Client (+2pt)
 

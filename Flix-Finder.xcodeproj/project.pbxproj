@@ -74,9 +74,9 @@
 		E9052FE6215D840600CDAA27 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				E9FDE8E7215455BB0038A3D6 /* SuperheroViewController.swift */,
 				E9653F532141A13D00A1C160 /* NowPlayingViewController.swift */,
 				E9FDE8E3215449240038A3D6 /* DetailViewController.swift */,
+				E9FDE8E7215455BB0038A3D6 /* SuperheroViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
