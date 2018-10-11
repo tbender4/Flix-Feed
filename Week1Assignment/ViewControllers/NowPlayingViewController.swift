@@ -132,16 +132,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     if searchActive {
       movie = filteredMovies[indexPath.row]       //switch to filteredmovies array when the search starts
     }
-
-    let title = movie.title
-    let overview = movie.overview
-    let posterURL = movie.posterURL
-    let posterPlaceholderImage = UIImage (named: "now_playing_tabbar_item")
-    
-    cell.posterImageViewer.af_setImage(withURL: posterURL!, placeholderImage: posterPlaceholderImage)
-    cell.titleLabel.text = title
-    cell.overviewLabel.text = overview
-    
+    cell.movie = movie
     return cell
   }
   
