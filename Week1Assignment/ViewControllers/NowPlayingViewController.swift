@@ -15,11 +15,10 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var loadingActIndicator: UIActivityIndicatorView!
   
-  //var movies: [[String: Any]] = []
-  //var filteredMovies: [[String: Any]] = [] //for search function
+
   var movies: [Movie] = []
   var filteredMovies: [Movie] = []
-  var searchActive: Bool = false     //maintains state of whether searchBar is usable. If
+  var searchActive: Bool = false     //maintains state of whether searchBar is used. Used to switch between movies and filteredMovies
   
   var refreshControl: UIRefreshControl!
   
@@ -50,10 +49,10 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
 
 
     print("search bar code will happen")
-
     if searchText.isEmpty {
       print("empty search")
     }
+    
     filteredMovies = searchText.isEmpty ? movies : movies.filter { (item: Movie) -> Bool in
 
       // If dataItem matches the searchText, return true to include it
@@ -63,8 +62,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     }
     tableView.reloadData()
   }
-
-  //TODO: Fix search bar
   
   func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
     searchActive = true
@@ -75,47 +72,35 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
   }
   
   func displayError () {
+    self.loadingActIndicator.stopAnimating()
     let networkAlertController = UIAlertController(title: "Cannot Get Movies", message: "The Internet connect appears to be offline.", preferredStyle: .alert)
     let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (action) in
       self.fetchMovies()
     }
     networkAlertController.addAction(tryAgainAction)
-    
     present(networkAlertController, animated: true) {
     }
   }
   
-  
-  func fetchMovies() {
-    let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
-    let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
-    let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-    let task = session.dataTask(with: request) { (data, response, error) in
-      self.loadingActIndicator.startAnimating()
-      
-      if let error = error {
-        print(error.localizedDescription)
-        self.displayError()
-      } else if let data = data {
-        let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-        let movieDictionaries = dataDictionary["results"] as! [[String: Any]]
-        
-        
-        self.movies = [] //empties array before filling it again
-        self.movies = Movie.movies(dictionaries: movieDictionaries)
-        self.tableView.reloadData()
-        
-        
-        
-        self.noticeSuccess("Updated", autoClear: true)
-        self.refreshControl.endRefreshing()
-        
-      }
-      self.loadingActIndicator.stopAnimating()
-    }
-    task.resume()
+  func displaySuccess() {
+    self.noticeSuccess("Updated", autoClear: true)
+    self.refreshControl.endRefreshing()
+    self.loadingActIndicator.stopAnimating()
   }
   
+  func fetchMovies() {
+    MovieApiManager().popularMovies { (movies: [Movie]?, error: Error?) in
+    //MovieApiManager().nowPlayingMovies { (movies: [Movie]?, error: Error?) in
+      self.loadingActIndicator.startAnimating()
+      if let movies = movies {
+        self.movies = movies
+        self.displaySuccess()
+        self.tableView.reloadData()
+      } else {
+        self.displayError()
+      }
+    }
+  }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
