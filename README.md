@@ -137,7 +137,7 @@ The following **required** user stories are complete:
 
 - [x] Create a movie model (+2pt)
 - [x] Implement the movie model (+2pt)
-- [ ] Implement property observers (+2pt)
+- [x] Implement property observers (+2pt)
 - [ ] Create a basic API Client (+2pt)
 
 The following **additional** user stories are implemented:
