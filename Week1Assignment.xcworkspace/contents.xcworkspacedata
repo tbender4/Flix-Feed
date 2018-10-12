@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/thomas/iOS Development/Week1Assignment/Flix-Finder.xcodeproj">
+      location = "group:/Users/thomas/iOS Development/Week1Assignment/Week1Assignment.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Week1Assignment.xcodeproj">
    </FileRef>
 </Workspace>
