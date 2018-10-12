@@ -33,7 +33,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
     tableView.dataSource = self
     
     fetchMovies()
-    filteredMovies = movies
     searchBar.delegate = self
     searchBar.text = ""
     self.tableView.reloadData()
@@ -99,6 +98,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
       } else {
         self.displayError()
       }
+      self.filteredMovies = self.movies
     }
   }
   
