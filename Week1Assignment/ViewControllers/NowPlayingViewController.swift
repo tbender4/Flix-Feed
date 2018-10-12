@@ -90,8 +90,9 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource, UISearc
   func fetchMovies() {
     MovieApiManager().popularMovies { (movies: [Movie]?, error: Error?) in
     //MovieApiManager().nowPlayingMovies { (movies: [Movie]?, error: Error?) in
-      self.loadingActIndicator.startAnimating()
+      
       if let movies = movies {
+        self.loadingActIndicator.startAnimating()
         self.movies = movies
         self.displaySuccess()
         self.tableView.reloadData()
